@@ -33,6 +33,10 @@ class App extends Component {
     })
   }
 
+  // kala = (dhola) => {
+  //   console.log("hi kala");
+  // }
+
   render() {
     const filteredMonstersList = this.state.monsters.filter((monster) => {
       return monster.name
