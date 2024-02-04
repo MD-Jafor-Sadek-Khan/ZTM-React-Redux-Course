@@ -9,6 +9,7 @@ const App = () => {
   const [monsters, setMonsters] = useState([])
   const [filteredMonsters, setFilteredMonsters] = useState([])
 
+  console.log('render');
   const onChangeHandler = (event) => {
     const searchFieldString = event.target.value
     setSearchField(searchFieldString)
