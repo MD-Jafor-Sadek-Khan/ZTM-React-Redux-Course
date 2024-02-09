@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import './signup-form.styles.scss'
+import "./signup-form.styles.scss"
 
 import {
   createAuthUserFromEmailAndPassword,

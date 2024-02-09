@@ -4,9 +4,6 @@ import FormInput from "../Form-Input/FormInput.component"
 import "./sign-in-form.styles.scss"
 import {
   SignInAuthUserFromEmailAndPassword,
-  auth,
-  createAuthUserFromEmailAndPassword,
-  createUserDocumentFromAuth,
   singInWithGooglePopUp,
 } from "../../utils/Firebase-Utils/firebase.utils"
 
@@ -20,8 +17,11 @@ const SignInForm = () => {
   const { email, password } = formFields
 
   const logGoogleUser = async () => {
-    const { user } = await singInWithGooglePopUp()
-    await createUserDocumentFromAuth(user)
+    try {
+      await singInWithGooglePopUp()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleFormFields = (event) => {
@@ -37,17 +37,16 @@ const SignInForm = () => {
     event.preventDefault()
 
     try {
-      const response = await SignInAuthUserFromEmailAndPassword(email, password)
-      console.log(response)
+      await SignInAuthUserFromEmailAndPassword(email, password)
     } catch (error) {
       switch (error.code) {
-        case 'auth/invalid-credential':
-            alert('Invalid User/Password');
-            break;
-        
+        case "auth/invalid-credential":
+          alert("Invalid User/Password")
+          break
+
         default:
-            alert("An error Occourd")
-            break;
+          alert("An error Occourd")
+          break
       }
     }
   }
