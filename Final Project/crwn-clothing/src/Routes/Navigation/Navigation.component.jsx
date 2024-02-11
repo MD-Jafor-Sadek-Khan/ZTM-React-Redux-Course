@@ -3,11 +3,19 @@ import { Fragment, useContext } from "react"
 
 import "./navigation.styles.scss"
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg"
-import { UserContext } from "../../Context/UserContext.component"
+import { UserContext } from "../../Context/UserContext.context"
 import { userSignOut } from "../../utils/Firebase-Utils/firebase.utils"
+import CartIcon from "../../Components/Cart-Icon/CartIcon.component"
+import { CartDropdown } from "../../Components/CartDropdown/CartDropdown.component"
+import { CartIconContext } from "../../Context/CartIcon.context"
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext)
+  const { cartIconToggle, setCartIconToggle } = useContext(CartIconContext)
+
+  const handleCartIconToggle = ()=>{
+    setCartIconToggle(!cartIconToggle)
+  }
 
   return (
     <Fragment>
@@ -30,7 +38,9 @@ const Navigation = () => {
               SignIn
             </Link>
           )}
+          <CartIcon />
         </div>
+        {cartIconToggle && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>

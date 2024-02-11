@@ -4,14 +4,20 @@ import "./index.scss"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import { BrowserRouter } from "react-router-dom"
-import { UserProvider } from "./Context/UserContext.component"
+import { UserProvider } from "./Context/UserContext.context"
+import { ProductListProvider } from "./Context/ProductList.context"
+import { CartIconContextProvider } from "./Context/CartIcon.context"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <App />
+        <ProductListProvider>
+          <CartIconContextProvider>
+            <App />
+          </CartIconContextProvider>
+        </ProductListProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

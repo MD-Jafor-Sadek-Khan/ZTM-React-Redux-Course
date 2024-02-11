@@ -16,6 +16,8 @@ const initialFormFieldValues = {
   confirmPassword: "",
 }
 
+
+
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(initialFormFieldValues)
   const { displayName, email, password, confirmPassword } = formFields
