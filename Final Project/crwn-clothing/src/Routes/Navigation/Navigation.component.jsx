@@ -11,11 +11,8 @@ import { CartIconContext } from "../../Context/CartIcon.context"
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext)
-  const { cartIconToggle, setCartIconToggle } = useContext(CartIconContext)
+  const { cartIconToggle } = useContext(CartIconContext)
 
-  const handleCartIconToggle = ()=>{
-    setCartIconToggle(!cartIconToggle)
-  }
 
   return (
     <Fragment>
