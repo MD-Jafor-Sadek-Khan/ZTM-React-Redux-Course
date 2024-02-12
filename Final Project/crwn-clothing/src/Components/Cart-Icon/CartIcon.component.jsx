@@ -5,7 +5,7 @@ import { CartIconContext } from "../../Context/CartIcon.context"
 
 const CartIcon = () => {
 
-  const {cartIconToggle,setCartIconToggle} = useContext(CartIconContext)
+  const {cartIconToggle,setCartIconToggle, cartCount} = useContext(CartIconContext)
   const handleCartIconToggle = ()=>{
     setCartIconToggle(!cartIconToggle)
   }
@@ -13,7 +13,7 @@ const CartIcon = () => {
   return (
     <div className="cart-icon-container" onClick={handleCartIconToggle}>
       <img className="shopping-icon" src={CART_ICON} alt="cart-icon" />
-      <span className="item-count">0</span>
+      <span className="item-count">{cartCount}</span>
     </div>
   )
 }
