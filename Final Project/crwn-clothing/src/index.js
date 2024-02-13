@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom"
 import { UserProvider } from "./Context/UserContext.context"
 import { CartIconContextProvider } from "./Context/CartIcon.context"
 import { CategoriesProvider } from "./Context/Categories.context"
+import { CategoryStateProvider } from "./Context/CategoryState.context"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
@@ -14,9 +15,11 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <CategoriesProvider>
-          <CartIconContextProvider>
-            <App />
-          </CartIconContextProvider>
+          <CategoryStateProvider>
+            <CartIconContextProvider>
+              <App />
+            </CartIconContextProvider>
+          </CategoryStateProvider>
         </CategoriesProvider>
       </UserProvider>
     </BrowserRouter>
