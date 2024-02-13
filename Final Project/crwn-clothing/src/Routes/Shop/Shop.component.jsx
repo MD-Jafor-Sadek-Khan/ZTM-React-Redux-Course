@@ -22,5 +22,5 @@ const Shop = () => {
     </Fragment>
   )
 }
-
+// category pages
 export default Shop
