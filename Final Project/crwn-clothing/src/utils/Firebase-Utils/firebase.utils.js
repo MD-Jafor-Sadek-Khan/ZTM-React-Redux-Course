@@ -7,10 +7,19 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from "firebase/auth"
 
-import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore"
+import {
+  doc,
+  getDoc,
+  setDoc,
+  getFirestore,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyD4f9MwlbsNNWR_MGRktRrexiXNvBViI6w",
@@ -36,6 +45,19 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider)
 
 const db = getFirestore()
+
+export const addCollectionAndDocuments = async (collectionName, data) => {
+  const collectionRef = collection(db, collectionName)
+  const batch = writeBatch(db)
+
+  data.forEach((item) => {
+    const documentRef = doc(collectionRef, item.title.toLowerCase())
+    batch.set(documentRef, item)
+  })
+
+  await batch.commit()
+  console.log("done")
+}
 
 export const createUserDocumentFromAuth = async (
   userAuth,
@@ -66,6 +88,19 @@ export const createUserDocumentFromAuth = async (
   return userDocRef
 }
 
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories")
+  const queryRef = query(collectionRef)
+  const querySnapShot = await getDocs(queryRef)
+
+  const categoryMap = querySnapShot.docs.reduce((acc, docSnapShot) => {
+    const {title, items} = docSnapShot.data()
+    acc[title.toLowerCase()] = items
+    return acc
+  }, {})
+  return categoryMap
+}
+
 export const createAuthUserFromEmailAndPassword = async (email, password) => {
   if (!email || !password) return
 
@@ -77,6 +112,7 @@ export const SignInAuthUserFromEmailAndPassword = async (email, password) => {
   return await signInWithEmailAndPassword(auth, email, password)
 }
 
-export const userSignOut =async ()=>await signOut(auth)
+export const userSignOut = async () => await signOut(auth)
 
-export const onUserAuthStateChanged = (callBack)=>onAuthStateChanged(auth, callBack)
+export const onUserAuthStateChanged = (callBack) =>
+  onAuthStateChanged(auth, callBack)
