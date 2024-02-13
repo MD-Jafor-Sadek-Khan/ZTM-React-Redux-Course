@@ -5,7 +5,6 @@ import { CategoriesContext } from "../../Context/Categories.context"
 
 const Shop = () => {
   const { categoryMap } = useContext(CategoriesContext)
-  // console.log(categoryMap)
   return (
     <Fragment>
       {Object.keys(categoryMap).map((category) => {
