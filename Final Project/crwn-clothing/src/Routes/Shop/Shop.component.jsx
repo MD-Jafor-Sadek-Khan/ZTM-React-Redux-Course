@@ -21,7 +21,14 @@ const Shop = () => {
       {Object.keys(categoryMap).map((category) => {
         return (
           <Fragment key={category}>
-            <h2 style={{cursor:"pointer"}}  onClick={() => handleNavigation(category)}>{category}</h2>
+            <h2>
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={() => handleNavigation(category)}
+              >
+                {category.toUpperCase()}
+              </span>
+            </h2>
             <div className="product-list-container">
               {categoryMap[category].map((product, index) => {
                 if (index > 3) return null
