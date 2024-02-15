@@ -1,13 +1,15 @@
 import { useState } from "react"
 
-import "./signup-form.styles.scss"
-
 import {
   createAuthUserFromEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/Firebase-Utils/firebase.utils"
 import FormInput from "../Form-Input/FormInput.component"
 import Button from "../Button/Buttom.component"
+import {
+  SignUpFormContainerStyled,
+  SignupFormTitleStyled,
+} from "./signup-form.styles.jsx"
 
 const initialFormFieldValues = {
   displayName: "",
@@ -15,8 +17,6 @@ const initialFormFieldValues = {
   password: "",
   confirmPassword: "",
 }
-
-
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(initialFormFieldValues)
@@ -57,8 +57,8 @@ const SignUpForm = () => {
     }
   }
   return (
-    <div className="signup-form-container">
-      <h2>Don't Have an Account?</h2>
+    <SignUpFormContainerStyled>
+      <SignupFormTitleStyled>Don't Have an Account?</SignupFormTitleStyled>
       <span>SignUp with Email & Password</span>
       <form onSubmit={(event) => handleSubmit(event)}>
         <FormInput
@@ -98,7 +98,7 @@ const SignUpForm = () => {
         />
         <Button type="submit">Sign Up</Button>
       </form>
-    </div>
+    </SignUpFormContainerStyled>
   )
 }
 
