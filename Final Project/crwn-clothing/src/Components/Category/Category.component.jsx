@@ -12,8 +12,8 @@ const Category = () => {
   }, [category, categoryMap])
   return (
     <Fragment>
-      <h2>{category.toUpperCase()}</h2>
-      <div className="product-list-container">
+      <h1 className="category-title">{category.toUpperCase()}</h1>
+      <div className="category-product-list-container">
         {products &&
           products.map((product) => {
             return <ProductCard key={product.id} product={product} />

@@ -11,7 +11,7 @@ const CategoriesPreview = () => {
         const product = categoryMap[category]
         return (
           <CategoryPreview
-            className="product-list-container"
+            className="category-preview-product-list-container"
             key={category}
             title={category.toUpperCase()}
             products={product}

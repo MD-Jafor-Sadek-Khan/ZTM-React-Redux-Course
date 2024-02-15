@@ -1,6 +1,12 @@
-.product-list-container{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    row-gap: 10px;
-    column-gap: 50px;
+.category-title {
+  text-align: center;
+  font-size: 38px;
+  padding: 20px 0;
+}
+
+.category-product-list-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 20px;
+  column-gap: 50px;
 }
