@@ -1,4 +1,4 @@
-import CategoryMenu from "../../Components/Category-menu/Category-menu.component"
+import Directory from "../../Components/Directory/Directory.component"
 
 const Home = () => {
   const categories = [
@@ -29,7 +29,7 @@ const Home = () => {
     },
   ]
 
-  return <CategoryMenu categories={categories}/>
+  return <Directory categories={categories}/>
 }
 
 export default Home
