@@ -5,7 +5,7 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/Firebase-Utils/firebase.utils"
 import FormInput from "../Form-Input/FormInput.component"
-import Button from "../Button/Buttom.component"
+import { Button, Button_Type_ClassName } from "../Button/Buttom.component"
 import {
   SignUpFormContainerStyled,
   SignupFormTitleStyled,
@@ -96,7 +96,7 @@ const SignUpForm = () => {
           name="confirmPassword"
           onChange={handleFormFields}
         />
-        <Button type="submit">Sign Up</Button>
+        <Button buttonType={Button_Type_ClassName.base} type="submit">Sign Up</Button>
       </form>
     </SignUpFormContainerStyled>
   )

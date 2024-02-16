@@ -1,25 +1,37 @@
-import { useContext } from 'react'
-import Button from '../Button/Buttom.component'
-import './product-card.styles.scss'
-import { CartIconContext } from '../../Context/CartIcon.context'
+import { useContext } from "react"
+import { Button_Type_ClassName } from "../Button/Buttom.component"
+import "./product-card.styles.jsx"
+import { CartIconContext } from "../../Context/CartIcon.context"
+import {
+  ButtonStyled,
+  FooterStyled,
+  NameStyled,
+  PriceStyled,
+  ProductCardContainerStyled,
+  ProductCardImageStyled,
+} from "./product-card.styles.jsx"
 
-
-const ProductCard = ({product})=>{
-    const {name, imageUrl, price} = product
-    const {addItemsToCart}=useContext(CartIconContext)
-    const addProductToCart = () =>{
-        addItemsToCart(product)
-    }
-    return(
-        <div className='product-card-container'>
-            <img src={imageUrl} alt={name}/>
-            <div className='footer'>
-                <span className='name'>{name}</span>
-                <span className='price'>{price}</span>
-            </div>
-            <Button type='inverse' onClick={addProductToCart}>Add to Cart</Button>
-        </div>
-    )
+const ProductCard = ({ product }) => {
+  const { name, imageUrl, price } = product
+  const { addItemsToCart } = useContext(CartIconContext)
+  const addProductToCart = () => {
+    addItemsToCart(product)
+  }
+  return (
+    <ProductCardContainerStyled>
+      <ProductCardImageStyled src={imageUrl} alt={name} />
+      <FooterStyled>
+        <NameStyled>{name}</NameStyled>
+        <PriceStyled>{price}</PriceStyled>
+      </FooterStyled>
+      <ButtonStyled
+        buttonType={Button_Type_ClassName.inverted}
+        onClick={addProductToCart}
+      >
+        Add to Cart
+      </ButtonStyled>
+    </ProductCardContainerStyled>
+  )
 }
 
 export default ProductCard
