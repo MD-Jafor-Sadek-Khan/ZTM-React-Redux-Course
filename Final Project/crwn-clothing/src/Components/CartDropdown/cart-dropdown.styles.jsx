@@ -3,7 +3,7 @@ import { Button } from "../Button/Buttom.component"
 
 export const CartDropdownContainer = styled.div`
   position: absolute;
-  width: 240px;
+  width: 260px;
   height: 340px;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,7 @@ export const CartDropdownContainer = styled.div`
   border: 1px solid black;
   background-color: white;
   top: 90px;
-  right: 40px;
+  right: 50px;
   z-index: 5;
 `
 
