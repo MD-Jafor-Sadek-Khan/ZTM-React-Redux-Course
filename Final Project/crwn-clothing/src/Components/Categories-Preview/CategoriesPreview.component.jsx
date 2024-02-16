@@ -1,8 +1,7 @@
 import { Fragment, useContext } from "react"
 import { CategoriesContext } from "../../Context/Categories.context"
-import CategoryPreview from "../Category-Preview/CategoryPreview.component"
 
-import "./categories-preview.styles.scss"
+import { CategoryPreviewProductListContainer } from "./categories-preview.styles.jsx"
 const CategoriesPreview = () => {
   const { categoryMap } = useContext(CategoriesContext)
   return (
@@ -10,8 +9,7 @@ const CategoriesPreview = () => {
       {Object.keys(categoryMap).map((category) => {
         const product = categoryMap[category]
         return (
-          <CategoryPreview
-            className="category-preview-product-list-container"
+          <CategoryPreviewProductListContainer
             key={category}
             title={category.toUpperCase()}
             products={product}
