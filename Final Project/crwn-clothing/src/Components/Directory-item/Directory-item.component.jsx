@@ -8,7 +8,7 @@ import {
 const DirectoryItem = ({ category: { title, imageUrl } }) => {
   return (
     <DirectoryItemContainerStyled>
-      <BackgroundImageStyled imageUrl={imageUrl} />
+      <BackgroundImageStyled imageurl={imageUrl} />
       <DirectoryItemBodyContainerStyled>
         <h2>{title}</h2>
         <p>Shop Now</p>
