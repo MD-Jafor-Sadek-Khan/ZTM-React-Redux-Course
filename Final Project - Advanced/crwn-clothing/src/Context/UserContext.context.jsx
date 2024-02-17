@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useReducer } from "react"
 import {
   createUserDocumentFromAuth,
   onUserAuthStateChanged,
@@ -9,8 +9,34 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 })
 
+const USER_ACTION_TYPE = {
+  Switch_Current_User: "Switch_Current_User",
+}
+
+const userReducer = (state, action) => {
+  const { type, payload } = action
+
+  switch (type) {
+    case USER_ACTION_TYPE.Switch_Current_User:
+      return {
+        ...state,
+        currentUser: payload,
+      }
+    default:
+      throw new Error(`No Such Action Called "${type}" Found In userReducer`)
+  }
+}
+
+const INITIAL_VALUE = {
+  currentUser: null,
+}
+
 export const UserProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null)
+  const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_VALUE)
+  const setCurrentUser = (user) => {
+    dispatch({ type: USER_ACTION_TYPE.Switch_Current_User, payload: user })
+  }
+
   const value = { currentUser, setCurrentUser }
 
   useEffect(() => {

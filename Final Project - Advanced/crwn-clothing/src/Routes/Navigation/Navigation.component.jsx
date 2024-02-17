@@ -24,13 +24,13 @@ const Navigation = () => {
           <CrwnLogo />
         </LogoContainerStyled>
         <NavLinksContainerStyled>
-          <NavLinkStyled to={"/shop"}>Shop</NavLinkStyled>
+          <NavLinkStyled to={"/shop"}>SHOP</NavLinkStyled>
           {currentUser ? (
             <NavLinkStyled as={"span"} onClick={userSignOut}>
-              Sign Out
+              SIGN OUT
             </NavLinkStyled>
           ) : (
-            <NavLinkStyled to={"/auth"}>SignIn</NavLinkStyled>
+            <NavLinkStyled to={"/auth"}>SIGN IN</NavLinkStyled>
           )}
           <CartIcon />
         </NavLinksContainerStyled>
