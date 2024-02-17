@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useReducer, useState } from "react"
 
 export const CartIconContext = createContext({
   cartIconToggle: false,
@@ -10,6 +10,79 @@ export const CartIconContext = createContext({
   removeCartItem: () => {},
   cartTotal: 0,
 })
+
+const CART_ACTION_TYPES = {
+  Toggle_Cart_Icon: "Toggle_Cart_Icon",
+  Add_Items_To_Cart: "Add_Items_To_Cart",
+  Decrement_Item_From_Cart: "Decrement_Item_From_Cart",
+  Remove_Cart_Item: "Remove_Cart_Item",
+  Update_Cart_Count:'Update_Cart_Count',
+  Update_Cart_Total:'Update_Cart_Total',
+}
+
+const userReducer = (state, action) => {
+  const { type, payload } = action
+
+  switch (type) {
+    case CART_ACTION_TYPES.Toggle_Cart_Icon:
+      return {
+        ...state,
+        cartIconToggle: !state.cartIconToggle,
+      }
+
+    case CART_ACTION_TYPES.Add_Items_To_Cart:
+      const updatedProductListforADD = checkAddedItemToCart(
+        payload,
+        state.cartIconItems
+      )
+      return {
+        ...state,
+        cartIconItems: updatedProductListforADD,
+      }
+
+    case CART_ACTION_TYPES.Decrement_Item_From_Cart:
+      const updatedProductListforDecrement = checkDecrementedItemFromCart(
+        payload,
+        state.cartIconItems
+      )
+      return {
+        ...state,
+        cartIconItems: updatedProductListforDecrement,
+      }
+
+    case CART_ACTION_TYPES.Remove_Cart_Item:
+      const updatedProductListforRemove = checkRemoveCartItem(
+        payload,
+        state.cartIconItems
+      )
+      return {
+        ...state,
+        cartIconItems: updatedProductListforRemove,
+      }
+
+
+    case CART_ACTION_TYPES.Update_Cart_Count:
+      return{
+        ...state,
+        cartCount:payload
+      }
+
+    case CART_ACTION_TYPES.Update_Cart_Total:
+      return{
+        ...state,
+        cartTotal:payload
+      }
+    default:
+      throw new Error(`No Such Action Called "${type}" Found On userReducer`)
+  }
+}
+
+const INITIAL_VALUE = {
+  cartIconToggle: false,
+  cartIconItems: [],
+  cartCount:0,
+  cartTotal:0,
+}
 
 const checkAddedItemToCart = (productToAdd, cartIconItems) => {
   const foundItemsOnCart = cartIconItems.find((item) => {
@@ -50,10 +123,22 @@ const checkRemoveCartItem = (cartItemToRemove, cartIconItems) => {
 }
 
 export const CartIconContextProvider = ({ children }) => {
-  const [cartIconToggle, setCartIconToggle] = useState(false)
-  const [cartIconItems, setCartIconItems] = useState([])
-  const [cartCount, setCartCount] = useState(0)
-  const [cartTotal, setCartTotal] = useState(0)
+  const [{ cartIconToggle, cartIconItems, cartCount, cartTotal }, dispatcher] = useReducer(
+    userReducer,
+    INITIAL_VALUE
+  )
+  const setCartIconToggle = () => {
+    dispatcher({ type: CART_ACTION_TYPES.Toggle_Cart_Icon, payload: null })
+  }
+
+  const setCartCount = (updatedCount)=>{
+    dispatcher({type:CART_ACTION_TYPES.Update_Cart_Count, payload:updatedCount})
+  }
+
+
+  const setCartTotal = (updatedValue)=>{
+    dispatcher({type:CART_ACTION_TYPES.Update_Cart_Total, payload:updatedValue})
+  }
 
   useEffect(() => {
     const newCount = cartIconItems.reduce((acc, item) => {
@@ -70,17 +155,24 @@ export const CartIconContextProvider = ({ children }) => {
   }, [cartIconItems])
 
   const addItemsToCart = (productToAdd) => {
-    setCartIconItems(checkAddedItemToCart(productToAdd, cartIconItems))
+    dispatcher({
+      type: CART_ACTION_TYPES.Add_Items_To_Cart,
+      payload: productToAdd,
+    })
   }
 
   const decrementItemFromCart = (cartItemToRemove) => {
-    setCartIconItems(
-      checkDecrementedItemFromCart(cartItemToRemove, cartIconItems)
-    )
+    dispatcher({
+      type: CART_ACTION_TYPES.Decrement_Item_From_Cart,
+      payload: cartItemToRemove,
+    })
   }
 
   const removeCartItem = (cartItemToRemove) => {
-    setCartIconItems(checkRemoveCartItem(cartItemToRemove, cartIconItems))
+    dispatcher({
+      type: CART_ACTION_TYPES.Remove_Cart_Item,
+      payload: cartItemToRemove,
+    })
   }
 
   const value = {
@@ -99,4 +191,3 @@ export const CartIconContextProvider = ({ children }) => {
     </CartIconContext.Provider>
   )
 }
-//
