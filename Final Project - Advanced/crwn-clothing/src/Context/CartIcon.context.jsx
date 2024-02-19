@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react"
+import { createContext, useEffect, useReducer } from "react"
 
 export const CartIconContext = createContext({
   cartIconToggle: false,
