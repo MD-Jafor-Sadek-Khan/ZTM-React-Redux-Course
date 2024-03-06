@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useReducer, useState } from "react"
 
 export const CartIconContext = createContext({
   cartIconToggle: false,
@@ -10,6 +10,38 @@ export const CartIconContext = createContext({
   removeCartItem: () => {},
   cartTotal: 0,
 })
+
+const Reducer_Type_Action = {
+  Set_Cart_Items:'Set_Cart_Items',
+  Set_Cart_Icon:'Set_Cart_Icon'
+}
+
+const INITIAL_VALUES = {
+  cartIconToggle: false,
+  cartIconItems: [],
+  cartTotal: 0,
+  cartCount: 0,
+}
+
+const reducer = (state, action) => {
+  const { type, payload } = action
+
+  switch (type) {
+    case Reducer_Type_Action.Set_Cart_Items:
+      return {
+        ...state,
+        ...payload,
+      }
+
+    case Reducer_Type_Action.Set_Cart_Icon:
+      return {
+        ...state,
+        cartIconToggle:payload
+      }
+    default:
+      throw new Error(`reducer does not contain ${type} action`)
+  }
+}
 
 const checkAddedItemToCart = (productToAdd, cartIconItems) => {
   const foundItemsOnCart = cartIconItems.find((item) => {
@@ -50,37 +82,48 @@ const checkRemoveCartItem = (cartItemToRemove, cartIconItems) => {
 }
 
 export const CartIconContextProvider = ({ children }) => {
-  const [cartIconToggle, setCartIconToggle] = useState(false)
-  const [cartIconItems, setCartIconItems] = useState([])
-  const [cartCount, setCartCount] = useState(0)
-  const [cartTotal, setCartTotal] = useState(0)
+  const [{ cartIconItems, cartTotal, cartCount, cartIconToggle }, dispatch] =
+    useReducer(reducer, INITIAL_VALUES)
 
-  useEffect(() => {
-    const newCount = cartIconItems.reduce((acc, item) => {
+  const updateCartItemsReducer = (newCartItems) => {
+    const newCount = newCartItems.reduce((acc, item) => {
       return acc + item.quantity
     }, 0)
-    setCartCount(newCount)
-  }, [cartIconItems])
 
-  useEffect(() => {
-    const newCartTotal = cartIconItems.reduce((acc, item) => {
+    const newCartTotal = newCartItems.reduce((acc, item) => {
       return acc + item.price * item.quantity
     }, 0)
-    setCartTotal(newCartTotal)
-  }, [cartIconItems])
+
+    dispatch({
+      type: Reducer_Type_Action.Set_Cart_Items,
+      payload: {
+        cartIconItems: newCartItems,
+        cartTotal: newCartTotal,
+        cartCount: newCount,
+      },
+    })
+  }
+
+  const setCartIconToggle = (bool) => {
+    dispatch({type:Reducer_Type_Action.Set_Cart_Icon, payload:bool})
+  }
 
   const addItemsToCart = (productToAdd) => {
-    setCartIconItems(checkAddedItemToCart(productToAdd, cartIconItems))
+    const newCartItems = checkAddedItemToCart(productToAdd, cartIconItems)
+    updateCartItemsReducer(newCartItems)
   }
 
   const decrementItemFromCart = (cartItemToRemove) => {
-    setCartIconItems(
-      checkDecrementedItemFromCart(cartItemToRemove, cartIconItems)
+    const newCartItems = checkDecrementedItemFromCart(
+      cartItemToRemove,
+      cartIconItems
     )
+    updateCartItemsReducer(newCartItems)
   }
 
   const removeCartItem = (cartItemToRemove) => {
-    setCartIconItems(checkRemoveCartItem(cartItemToRemove, cartIconItems))
+    const newCartItems = checkRemoveCartItem(cartItemToRemove, cartIconItems)
+    updateCartItemsReducer(newCartItems)
   }
 
   const value = {
