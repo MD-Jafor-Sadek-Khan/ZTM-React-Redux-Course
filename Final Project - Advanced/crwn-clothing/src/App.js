@@ -5,17 +5,35 @@ import Navigation from "./Routes/Navigation/Navigation.component"
 import Authentication from "./Routes/Authentication/Authentication.component"
 import Shop from "./Routes/Shop/Shop.component"
 import Checkout from "./Components/Checkout/Checkout.component"
+import {
+  createUserDocumentFromAuth,
+  onUserAuthStateChanged,
+} from "./utils/Firebase-Utils/firebase.utils"
+import { useEffect } from "react"
+import { setCurrentUser } from "./Store/user/user.actions"
+import { useDispatch } from "react-redux"
 
 const App = () => {
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    const unSubscribe = onUserAuthStateChanged((user) => {
+      if (user) {
+        createUserDocumentFromAuth(user)
+      }
+
+      dispatch(setCurrentUser(user))
+    })
+    return unSubscribe
+  }, [])
 
   return (
     <Routes>
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
         <Route path="shop/*" element={<Shop />} />
-        <Route path="auth" element={<Authentication/>}/>
-        <Route path="checkout" element={<Checkout/>}/>
+        <Route path="auth" element={<Authentication />} />
+        <Route path="checkout" element={<Checkout />} />
       </Route>
     </Routes>
   )

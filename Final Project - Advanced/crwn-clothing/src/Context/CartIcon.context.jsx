@@ -1,4 +1,5 @@
 import { createContext, useReducer } from "react"
+import { createAction } from "../utils/Reducer-Utils/reducer.utils"
 
 export const CartIconContext = createContext({
   cartIconToggle: false,
@@ -94,18 +95,15 @@ export const CartIconContextProvider = ({ children }) => {
       return acc + item.price * item.quantity
     }, 0)
 
-    dispatch({
-      type: Reducer_Type_Action.Set_Cart_Items,
-      payload: {
-        cartIconItems: newCartItems,
-        cartTotal: newCartTotal,
-        cartCount: newCount,
-      },
-    })
+    dispatch(createAction(Reducer_Type_Action.Set_Cart_Items, {
+      cartIconItems: newCartItems,
+      cartTotal: newCartTotal,
+      cartCount: newCount,
+    }))
   }
 
   const setCartIconToggle = (bool) => {
-    dispatch({type:Reducer_Type_Action.Set_Cart_Icon, payload:bool})
+    dispatch(createAction(Reducer_Type_Action.Set_Cart_Icon,bool))
   }
 
   const addItemsToCart = (productToAdd) => {

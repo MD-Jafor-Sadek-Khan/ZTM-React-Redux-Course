@@ -3,6 +3,7 @@ import {
   createUserDocumentFromAuth,
   onUserAuthStateChanged,
 } from "../utils/Firebase-Utils/firebase.utils"
+import { createAction } from "../utils/Reducer-Utils/reducer.utils"
 
 export const UserContext = createContext({
   currentUser: null,
@@ -33,8 +34,9 @@ const INITIAL_VALUE = {
 
 export const UserProvider = ({ children }) => {
   const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_VALUE)
+  
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTION_TYPE.Switch_Current_User, payload: user })
+    dispatch(createAction(USER_ACTION_TYPE.Switch_Current_User, user))
   }
 
   const value = { currentUser, setCurrentUser }
