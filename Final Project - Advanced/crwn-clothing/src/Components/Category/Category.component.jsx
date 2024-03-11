@@ -10,13 +10,23 @@ import { useSelector } from "react-redux"
 import { categoryMapSelector } from "../../Store/categories/category.selectors.js"
 
 const Category = () => {
-  const categoryMap = useSelector((state) => categoryMapSelector(state))
-
+  
   const { category } = useParams()
+  console.log('render / re-render category component');
+  const categoryMap = useSelector(categoryMapSelector)
   const [products, setProducts] = useState(categoryMap[category])
+
+
   useEffect(() => {
+    console.log('useEffect');
+
     setProducts(categoryMap[category])
+    console.log('setProducts');
+
   }, [category, categoryMap])
+
+
+
   return (
     <Fragment>
       <CategoryTitle>{category.toUpperCase()}</CategoryTitle>

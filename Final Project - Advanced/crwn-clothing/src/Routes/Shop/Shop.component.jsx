@@ -12,12 +12,12 @@ const Shop = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments()
-      dispatch(setCategoryMap(categoryMap))
+    const getCategoriesArray = async () => {
+      const categoryArray = await getCategoriesAndDocuments()
+      dispatch(setCategoryMap(categoryArray))
     }
 
-    getCategoriesMap()
+    getCategoriesArray()
   }, [])
 
   return (
