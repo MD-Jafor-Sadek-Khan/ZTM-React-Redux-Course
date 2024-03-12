@@ -1,7 +1,5 @@
 import "./cart-dropdown.styles.jsx"
 import { Button_Type_ClassName } from "../Button/Buttom.component"
-import { useContext } from "react"
-import { CartIconContext } from "../../Context/CartIcon.context"
 import CartItem from "../Cart-Item/CartItem.component"
 import { useNavigate } from "react-router-dom"
 import {
@@ -10,9 +8,12 @@ import {
   CartItems,
   EmptyMessage,
 } from "./cart-dropdown.styles.jsx"
+import { useSelector } from "react-redux"
+import { selectCartItems } from "../../Store/cart/cart.selectors.js"
 
 export const CartDropdown = () => {
-  const { cartIconItems } = useContext(CartIconContext)
+
+  const cartItems = useSelector(selectCartItems)
   const navigate = useNavigate()
 
   const handleCheckoutNavigation = () => {
@@ -22,8 +23,8 @@ export const CartDropdown = () => {
   return (
     <CartDropdownContainer>
       <CartItems>
-        {cartIconItems.length > 0 ? (
-          cartIconItems.map((item) => {
+        {cartItems.length > 0 ? (
+          cartItems.map((item) => {
             return <CartItem key={item.id} cartItem={item} />
           })
         ) : (

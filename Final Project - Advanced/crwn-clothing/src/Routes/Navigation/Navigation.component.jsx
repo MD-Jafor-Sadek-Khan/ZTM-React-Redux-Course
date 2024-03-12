@@ -1,11 +1,10 @@
-import { Outlet, Link } from "react-router-dom"
-import { Fragment, useContext } from "react"
+import { Outlet } from "react-router-dom"
+import { Fragment } from "react"
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg"
 import { userSignOut } from "../../utils/Firebase-Utils/firebase.utils"
 import CartIcon from "../../Components/Cart-Icon/CartIcon.component"
 import { CartDropdown } from "../../Components/CartDropdown/CartDropdown.component"
-import { CartIconContext } from "../../Context/CartIcon.context"
 import {
   LogoContainerStyled,
   NavLinkStyled,
@@ -14,14 +13,14 @@ import {
 } from "./navigation.styles"
 import { useSelector } from "react-redux"
 import { userSelector } from "../../Store/user/user.selector"
+import { selectCartToggle } from "../../Store/cart/cart.selectors"
 
 const Navigation = () => {
 
 
   const currentUser = useSelector(userSelector)
 
-
-  const { cartIconToggle } = useContext(CartIconContext)
+  const cartToggle = useSelector(selectCartToggle)
   return (
     <Fragment>
       <NavigationStyled>
@@ -39,7 +38,7 @@ const Navigation = () => {
           )}
           <CartIcon />
         </NavLinksContainerStyled>
-        {cartIconToggle && <CartDropdown />}
+        {cartToggle && <CartDropdown />}
       </NavigationStyled>
       <Outlet />
     </Fragment>

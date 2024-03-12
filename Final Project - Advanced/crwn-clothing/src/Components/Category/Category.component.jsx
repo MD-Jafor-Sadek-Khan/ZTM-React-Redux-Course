@@ -12,16 +12,13 @@ import { categoryMapSelector } from "../../Store/categories/category.selectors.j
 const Category = () => {
   
   const { category } = useParams()
-  console.log('render / re-render category component');
   const categoryMap = useSelector(categoryMapSelector)
   const [products, setProducts] = useState(categoryMap[category])
 
 
   useEffect(() => {
-    console.log('useEffect');
 
     setProducts(categoryMap[category])
-    console.log('setProducts');
 
   }, [category, categoryMap])
 
