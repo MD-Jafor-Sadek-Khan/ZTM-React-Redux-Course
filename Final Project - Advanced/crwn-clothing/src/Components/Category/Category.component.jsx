@@ -7,32 +7,37 @@ import {
   CategoryTitle,
 } from "./category.styles.jsx"
 import { useSelector } from "react-redux"
-import { categoryMapSelector } from "../../Store/categories/category.selectors.js"
+import {
+  categoryMapSelector,
+  selectCategoryIsLoading,
+} from "../../Store/categories/category.selectors.js"
+import Spinner from "../Spinner/spinner.component.jsx"
 
 const Category = () => {
-  
   const { category } = useParams()
   const categoryMap = useSelector(categoryMapSelector)
   const [products, setProducts] = useState(categoryMap[category])
 
-
   useEffect(() => {
-
     setProducts(categoryMap[category])
-
   }, [category, categoryMap])
 
-
+  const isLoading = useSelector(selectCategoryIsLoading)
 
   return (
     <Fragment>
       <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
-      <CategoryProductListContainer>
-        {products &&
-          products.map((product) => {
-            return <ProductCard key={product.id} product={product} />
-          })}
-      </CategoryProductListContainer>
+
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <CategoryProductListContainer>
+          {products &&
+            products.map((product) => {
+              return <ProductCard key={product.id} product={product} />
+            })}
+        </CategoryProductListContainer>
+      )}
     </Fragment>
   )
 }

@@ -19,3 +19,8 @@ export const categoryMapSelector = createSelector(
     }, {})
   }
 )
+
+export const selectCategoryIsLoading = createSelector(
+  [selectCategory],
+  (categoriesSlice) => categoriesSlice.isLoading
+)
