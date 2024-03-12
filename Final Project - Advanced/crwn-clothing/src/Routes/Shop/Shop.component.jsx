@@ -3,21 +3,20 @@ import CategoriesPreview from "../../Components/Categories-Preview/CategoriesPre
 import { Route, Routes } from "react-router-dom"
 import Category from "../../Components/Category/Category.component"
 import { useEffect } from "react"
-import { fetchCategoriesAsync, setCategoryMap } from "../../Store/categories/category.actions"
 import { useDispatch } from "react-redux"
+import { fetchCategoriesStart } from "../../Store/categories/category.actions"
 
 const Shop = () => {
-
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCategoriesAsync())
+    dispatch(fetchCategoriesStart())
   }, [])
 
   return (
     <Routes>
-      <Route index element={<CategoriesPreview />}/>
-      <Route path=":category" element={<Category/>}/>
+      <Route index element={<CategoriesPreview />} />
+      <Route path=":category" element={<Category />} />
     </Routes>
   )
 }
