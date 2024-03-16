@@ -12,8 +12,8 @@ export const checkUserSession = () => {
 export const googleSignInStart = () => {
   return createAction(USER_ACTION_TYPE.Google_Sign_In_Start)
 }
-export const emailSignInStart = () => {
-  return createAction(USER_ACTION_TYPE.Email_Sign_In_Start)
+export const emailSignInStart = (email, password) => {
+  return createAction(USER_ACTION_TYPE.Email_Sign_In_Start, {email, password})
 }
 export const signInSuccess = (user) => {
   return createAction(USER_ACTION_TYPE.Sign_In_Success, user)

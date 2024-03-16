@@ -2,14 +2,15 @@ import { useState } from "react"
 import { Button, Button_Type_ClassName } from "../Button/Buttom.component"
 import FormInput from "../Form-Input/FormInput.component"
 import {
-  SignInAuthUserFromEmailAndPassword,
-  singInWithGooglePopUp,
-} from "../../utils/Firebase-Utils/firebase.utils"
-import {
   ButtonsContainerStyled,
   SignInFormContainerStyled,
   SignInTitleStyled,
 } from "./sign-in-form.styles.jsx"
+import { useDispatch } from "react-redux"
+import {
+  emailSignInStart,
+  googleSignInStart,
+} from "../../Store/user/user.actions.js"
 
 const initialFormFieldValues = {
   email: "",
@@ -17,15 +18,13 @@ const initialFormFieldValues = {
 }
 
 const SignInForm = () => {
+  const dispatch = useDispatch()
+
   const [formFields, setFormFields] = useState(initialFormFieldValues)
   const { email, password } = formFields
 
   const logGoogleUser = async () => {
-    try {
-      await singInWithGooglePopUp()
-    } catch (error) {
-      console.log(error)
-    }
+    dispatch(googleSignInStart())
   }
 
   const handleFormFields = (event) => {
@@ -41,7 +40,7 @@ const SignInForm = () => {
     event.preventDefault()
 
     try {
-      await SignInAuthUserFromEmailAndPassword(email, password)
+      dispatch(emailSignInStart(email, password))
     } catch (error) {
       switch (error.code) {
         case "auth/invalid-credential":
@@ -77,7 +76,9 @@ const SignInForm = () => {
           onChange={handleFormFields}
         />
         <ButtonsContainerStyled>
-          <Button buttonType={Button_Type_ClassName.base} type="submit">SignIn</Button>
+          <Button buttonType={Button_Type_ClassName.base} type="submit">
+            SignIn
+          </Button>
 
           <Button
             type="button"
