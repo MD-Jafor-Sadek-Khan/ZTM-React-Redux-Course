@@ -2,11 +2,17 @@ import { all, call, put, takeLatest } from "redux-saga/effects"
 import { USER_ACTION_TYPE } from "./user.types"
 import {
   SignInAuthUserFromEmailAndPassword,
+  createAuthUserFromEmailAndPassword,
   createUserDocumentFromAuth,
   getCurrentUser,
   singInWithGooglePopUp,
 } from "../../utils/Firebase-Utils/firebase.utils"
-import { signInFalied, signInSuccess } from "./user.actions"
+import {
+  signInFalied,
+  signInSuccess,
+  signUpFailed,
+  signUpSuccess,
+} from "./user.actions"
 
 export function* getSnapShotFromUserAuth(userAuth, additionalField) {
   try {
@@ -15,12 +21,32 @@ export function* getSnapShotFromUserAuth(userAuth, additionalField) {
       userAuth,
       additionalField
     )
-
     yield put(
       signInSuccess({ id: userDocSnapShot.id, ...userDocSnapShot.data() })
     )
   } catch (error) {
     yield put(signInFalied(error))
+  }
+}
+
+export function* singInAfterSignUp({payload:{user, additionalField}}) {
+  try {
+    yield call(getSnapShotFromUserAuth, user, additionalField)
+  } catch (error) {
+    yield put(signUpFailed(error))
+  }
+}
+
+export function* signUp({ payload: { email, password, displayName } }) {
+  try {
+    const { user } = yield call(
+      createAuthUserFromEmailAndPassword,
+      email,
+      password
+    )
+    yield put(signUpSuccess(user, { displayName }))
+  } catch (error) {
+    yield put(signUpFailed(error))
   }
 }
 
@@ -54,6 +80,14 @@ export function* isUserAuthenticated() {
   } catch (error) {}
 }
 
+export function* onSignUpStart() {
+  yield takeLatest(USER_ACTION_TYPE.Sign_Up_Start, signUp)
+}
+
+export function* onSignUpSuccess() {
+  yield takeLatest(USER_ACTION_TYPE.Sign_Up_Success, singInAfterSignUp)
+}
+
 export function* onEmailSignInStart() {
   yield takeLatest(USER_ACTION_TYPE.Email_Sign_In_Start, signInWithEmail)
 }
@@ -71,5 +105,7 @@ export function* userSagas() {
     call(onCheckUserSession),
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
+    call(onSignUpStart),
+    call(onSignUpSuccess),
   ])
 }

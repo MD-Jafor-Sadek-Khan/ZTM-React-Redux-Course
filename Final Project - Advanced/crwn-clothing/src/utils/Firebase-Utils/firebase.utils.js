@@ -42,7 +42,6 @@ export const auth = getAuth()
 
 export const singInWithGooglePopUp = () => signInWithPopup(auth, googleProvider)
 
-
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider)
 
@@ -103,6 +102,7 @@ export const createAuthUserFromEmailAndPassword = async (email, password) => {
 
   return await createUserWithEmailAndPassword(auth, email, password)
 }
+
 export const SignInAuthUserFromEmailAndPassword = async (email, password) => {
   if (!email || !password) return
 
@@ -116,9 +116,13 @@ export const onUserAuthStateChangedListner = (callBack) =>
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unSubscribe = onAuthStateChanged(auth, (userAuth) => {
-      unSubscribe()
-      resolve(userAuth)
-    }, reject)
+    const unSubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unSubscribe()
+        resolve(userAuth)
+      },
+      reject
+    )
   })
 }

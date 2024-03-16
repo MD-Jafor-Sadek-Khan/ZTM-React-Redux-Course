@@ -10,6 +10,8 @@ import {
   SignUpFormContainerStyled,
   SignupFormTitleStyled,
 } from "./signup-form.styles.jsx"
+import { useDispatch } from "react-redux"
+import { signUpStart } from "../../Store/user/user.actions.js"
 
 const initialFormFieldValues = {
   displayName: "",
@@ -19,6 +21,8 @@ const initialFormFieldValues = {
 }
 
 const SignUpForm = () => {
+  const dispatch = useDispatch()
+
   const [formFields, setFormFields] = useState(initialFormFieldValues)
   const { displayName, email, password, confirmPassword } = formFields
 
@@ -44,8 +48,7 @@ const SignUpForm = () => {
     }
 
     try {
-      const { user } = await createAuthUserFromEmailAndPassword(email, password)
-      await createUserDocumentFromAuth(user, { displayName })
+      dispatch(signUpStart(email, password, displayName ))
       clearFormFields()
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
@@ -96,7 +99,9 @@ const SignUpForm = () => {
           name="confirmPassword"
           onChange={handleFormFields}
         />
-        <Button buttonType={Button_Type_ClassName.base} type="submit">Sign Up</Button>
+        <Button buttonType={Button_Type_ClassName.base} type="submit">
+          Sign Up
+        </Button>
       </form>
     </SignUpFormContainerStyled>
   )

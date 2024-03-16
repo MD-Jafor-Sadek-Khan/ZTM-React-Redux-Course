@@ -5,13 +5,8 @@ import Navigation from "./Routes/Navigation/Navigation.component"
 import Authentication from "./Routes/Authentication/Authentication.component"
 import Shop from "./Routes/Shop/Shop.component"
 import Checkout from "./Components/Checkout/Checkout.component"
-import {
-  createUserDocumentFromAuth,
-  getCurrentUser,
-  onUserAuthStateChangedListner,
-} from "./utils/Firebase-Utils/firebase.utils"
 import { useEffect } from "react"
-import { checkUserSession, setCurrentUser } from "./Store/user/user.actions"
+import { checkUserSession } from "./Store/user/user.actions"
 import { useDispatch } from "react-redux"
 
 const App = () => {
