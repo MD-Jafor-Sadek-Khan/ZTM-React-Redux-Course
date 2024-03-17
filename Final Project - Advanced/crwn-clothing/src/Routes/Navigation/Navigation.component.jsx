@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom"
 import { Fragment } from "react"
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg"
-import { userSignOut } from "../../utils/Firebase-Utils/firebase.utils"
 import CartIcon from "../../Components/Cart-Icon/CartIcon.component"
 import { CartDropdown } from "../../Components/CartDropdown/CartDropdown.component"
 import {
@@ -11,16 +10,21 @@ import {
   NavLinksContainerStyled,
   NavigationStyled,
 } from "./navigation.styles"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { userSelector } from "../../Store/user/user.selector"
 import { selectCartToggle } from "../../Store/cart/cart.selectors"
+import { signOutStart } from "../../Store/user/user.actions"
 
 const Navigation = () => {
-
+  const dispatch = useDispatch()
 
   const currentUser = useSelector(userSelector)
 
   const cartToggle = useSelector(selectCartToggle)
+
+  const handleSignOut = ()=>{
+    dispatch(signOutStart())
+  }
   return (
     <Fragment>
       <NavigationStyled>
@@ -30,7 +34,7 @@ const Navigation = () => {
         <NavLinksContainerStyled>
           <NavLinkStyled to={"/shop"}>SHOP</NavLinkStyled>
           {currentUser ? (
-            <NavLinkStyled as={"span"} onClick={userSignOut}>
+            <NavLinkStyled as={"span"} onClick={handleSignOut}>
               SIGN OUT
             </NavLinkStyled>
           ) : (

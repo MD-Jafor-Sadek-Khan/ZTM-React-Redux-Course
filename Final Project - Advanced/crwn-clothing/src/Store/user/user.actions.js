@@ -33,3 +33,15 @@ export const signUpSuccess = (user, additionalField) =>{
 export const signUpFailed = (error)=>{
   return createAction(USER_ACTION_TYPE.Sign_Up_Failed,error)
 }
+
+export const signOutStart = ()=>{
+  return createAction(USER_ACTION_TYPE.Sign_Out_Start,)
+}
+
+export const signOutSuccess = ()=>{
+  return createAction(USER_ACTION_TYPE.Sign_Out_Success,)
+}
+
+export const signOutFailed = (error)=>{
+  return createAction(USER_ACTION_TYPE.Sign_Out_Failed,error)
+}

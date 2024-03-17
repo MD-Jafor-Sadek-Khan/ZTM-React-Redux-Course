@@ -8,6 +8,9 @@ export const USER_ACTION_TYPE = {
     Sign_Up_Start: "user/Sign_Up_Start",
     Sign_Up_Success: "user/Sign_Up_Success",
     Sign_Up_Failed: "user/Sign_Up_Failed",
+    Sign_Out_Start:   "user/Sign_Out_Start",
+    Sign_Out_Success: "user/Sign_Out_Success",
+    Sign_Out_Failed:  "user/Sign_Out_Failed",
   }
 
 

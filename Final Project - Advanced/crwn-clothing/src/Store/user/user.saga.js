@@ -6,10 +6,13 @@ import {
   createUserDocumentFromAuth,
   getCurrentUser,
   singInWithGooglePopUp,
+  userSignOut,
 } from "../../utils/Firebase-Utils/firebase.utils"
 import {
   signInFalied,
   signInSuccess,
+  signOutFailed,
+  signOutSuccess,
   signUpFailed,
   signUpSuccess,
 } from "./user.actions"
@@ -29,7 +32,7 @@ export function* getSnapShotFromUserAuth(userAuth, additionalField) {
   }
 }
 
-export function* singInAfterSignUp({payload:{user, additionalField}}) {
+export function* singInAfterSignUp({ payload: { user, additionalField } }) {
   try {
     yield call(getSnapShotFromUserAuth, user, additionalField)
   } catch (error) {
@@ -47,6 +50,15 @@ export function* signUp({ payload: { email, password, displayName } }) {
     yield put(signUpSuccess(user, { displayName }))
   } catch (error) {
     yield put(signUpFailed(error))
+  }
+}
+
+export function* signOut() {
+  try {
+    yield call(userSignOut)
+    yield put(signOutSuccess())
+  } catch (error) {
+    yield put(signOutFailed(error))
   }
 }
 
@@ -100,6 +112,10 @@ export function* onCheckUserSession() {
   yield takeLatest(USER_ACTION_TYPE.Check_User_Session, isUserAuthenticated)
 }
 
+export function* onSignOutStart() {
+  yield takeLatest(USER_ACTION_TYPE.Sign_Out_Start, signOut)
+}
+
 export function* userSagas() {
   yield all([
     call(onCheckUserSession),
@@ -107,5 +123,6 @@ export function* userSagas() {
     call(onEmailSignInStart),
     call(onSignUpStart),
     call(onSignUpSuccess),
+    call(onSignOutStart),
   ])
 }

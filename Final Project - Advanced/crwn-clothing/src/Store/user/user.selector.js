@@ -1,6 +1,5 @@
 import { createSelector } from "reselect"
 
-export const userSelector = (state) => state.user.currentUser
 
 const selectUserSlice = (state)=> state.user
 
@@ -9,3 +8,7 @@ export const selectUserIsLoading =  createSelector(
     (userSlice) => userSlice.isLoading
 )
 
+export const userSelector = createSelector(
+    [selectUserSlice],
+    (userSlice)=> userSlice.currentUser
+)
