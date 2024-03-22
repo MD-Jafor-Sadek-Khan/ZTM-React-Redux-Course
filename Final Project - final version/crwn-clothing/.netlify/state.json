@@ -1,0 +1,19 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Dhaka",
+			"country": {
+				"code": "BD",
+				"name": "Bangladesh"
+			},
+			"subdivision": {
+				"code": "C",
+				"name": "Dhaka Division"
+			},
+			"timezone": "Asia/Dhaka",
+			"latitude": 23.7272,
+			"longitude": 90.4093
+		},
+		"timestamp": 1711051680232
+	}
+}
